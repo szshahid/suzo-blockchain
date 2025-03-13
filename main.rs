@@ -1,11 +1,14 @@
-use std::net::{TcpListener, TcpStream};
+mod blockchain;
+mod wallet;
+mod network;
+mod explorer;
+mod token;
 
-pub fn start_network(port: &str) {
-    let listener = TcpListener::bind(format!("127.0.0.1:{}", port)).unwrap();
-    println!("Network started on port {}", port);
+fn main() {
+    let suzo = token::Token::new();
+    println!("Token Name: {}", suzo.name);
+    println!("Token Symbol: {}", suzo.symbol);
+    println!("Total Supply: {} SUZO", suzo.get_supply());
 
-    for stream in listener.incoming() {
-        let _stream = stream.unwrap();
-        println!("New connection established");
-    }
+    network::start_network("8080");  // P2P Network Start
 }
